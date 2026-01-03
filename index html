@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ক্যামেরা টেস্ট</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
+        h2 { color: #333; }
+        
+        /* ক্যামেরা বাটন ডিজাইন */
+        .camera-btn {
+            background-color: #008CBA; color: white; 
+            padding: 15px 30px; font-size: 18px; 
+            border: none; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin: 20px 0;
+        }
+        
+        /* ছবির প্রিভিউ বক্স */
+        #previewBox {
+            margin-top: 20px; max-width: 100%; border: 2px dashed #aaa; 
+            display: none; padding: 10px; background: white;
+        }
+        img { width: 100%; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>১. খাতার ছবি তোলো 📸</h2>
+    
+    <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
+
+    <button class="camera-btn" onclick="openCamera()">ক্যামেরা চালু করুন</button>
+
+    <div id="previewBox">
+        <p>তোমার খাতা:</p>
+        <img id="imageShow" src="">
+        <p style="color: green;">✅ ছবি রেডি!</p>
+    </div>
+
+    <script>
+        // বাটন চাপলে আসল ইনপুট ফিল্ডে ক্লিক হবে
+        function openCamera() {
+            document.getElementById('cameraInput').click();
+        }
+
+        // ছবি সিলেক্ট করার পর যা ঘটবে
+        document.getElementById('cameraInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            
+            if (file) {
+                // ১. ছবিটা পড়ার জন্য রিডার তৈরি
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // ২. প্রিভিউ বক্সে ছবি দেখানো
+                    document.getElementById('imageShow').src = e.target.result;
+                    document.getElementById('previewBox').style.display = 'block';
+                }
+                
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+</body>
+</html>
